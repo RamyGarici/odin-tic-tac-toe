@@ -1,4 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 *{
+
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -70,12 +72,13 @@ margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 4rem;
   background-color: #222831; 
   color: #EEEEEE;
   border: 1px solid #393E46;
   cursor: pointer;
   transition: 0.3s ease;
+ font-family: 'Poppins', sans-serif;
 }
 .cell:hover {
   background-color: #FFD369;

@@ -1,3 +1,7 @@
+const cells = document.querySelectorAll(".cell");
+const title = document.getElementById("title")
+
+
 const Gameboard = (()=>{
 let board =["","","","","","","","",""];
 
@@ -12,6 +16,8 @@ const setMark= (index,mark)=>{
 
 const reset = ()=>{
   board =["","","","","","","","",""];
+  title.textContent = "Tic Tac Toe"
+
 };
 
 return{getBoard,setMark,reset};
@@ -31,34 +37,37 @@ const gameController=(()=>{
     currentPlayerIndex=0;
     gameOver=false;
      Gameboard.reset();
-    console.log(`${players[currentPlayerIndex].name}'s turn`);
+   
   };
 
   const playRound = (index)=>{
     if(gameOver){
-      console.log("Game is over. Restart to play again.");
+     
       return;
     }
      const currentPlayer = players[currentPlayerIndex];
      if(Gameboard.setMark(index, currentPlayer.marker)){
-       console.log(`${currentPlayer.name} placed ${currentPlayer.marker} at ${index}`);
-       printBoard();
+      
+ 
      
 
       if (checkWinner(currentPlayer.marker)) {
-        console.log(`${currentPlayer.name} wins!`);
+        
+        title.textContent = `${currentPlayer.name} wins!`;
+
         gameOver = true;
         return;
       }
 
       if(isTie()){
-        console.log("It's a tie!");
+        
+        title.textContent= "It's a tie!"
         gameOver = true;
         return;
       }
 
       currentPlayerIndex = currentPlayerIndex===0? 1:0;
-       console.log(`Now it's ${players[currentPlayerIndex].name}'s turn`);
+      
     } else {
       console.log("Spot already taken, try again!");
     }
@@ -66,14 +75,6 @@ const gameController=(()=>{
   };
     
 
-  const printBoard=()=>{
-    const board=Gameboard.getBoard()
-     console.log(`
-      ${board[0] || "-"} | ${board[1] || "-"} | ${board[2] || "-"}
-      ${board[3] || "-"} | ${board[4] || "-"} | ${board[5] || "-"}
-      ${board[6] || "-"} | ${board[7] || "-"} | ${board[8] || "-"}
-    `);
-  }
 
   const isTie=()=>{
     return Gameboard.getBoard().every(cell=>cell!="");
@@ -95,11 +96,31 @@ const gameController=(()=>{
 
   return { start, playRound };
 
-
-
-
-
-
-
-
 })();
+
+const resetBtn = document.getElementById("reset-btn");
+resetBtn.addEventListener("click", () => {
+  Gameboard.reset();
+  renderBoard();
+  gameController.start("Player 1", "Player 2"); 
+  
+});
+
+cells.forEach(cell=>{
+  cell.addEventListener("click",(e)=>{
+    gameController.playRound(parseInt(cell.dataset.index));
+    renderBoard()
+
+  })
+})
+
+const renderBoard=()=>{
+const board= Gameboard.getBoard();
+cells.forEach((cell,index)=>{
+  cell.textContent=board[index];
+
+})
+
+}
+
+gameController.start("Player 1", "Player 2");
